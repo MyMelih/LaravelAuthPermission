@@ -139,7 +139,6 @@ class UserController extends Controller
                     'isAdmin' => $isAdmin
                 ]);
 
-                // Get the ID of the newly created user
                 $userId = DB::getPdo()->lastInsertId();
             }
 

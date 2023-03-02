@@ -84,9 +84,6 @@
                                     @can('roles-listele')
                                         <li><a class="dropdown-item" href="{{ route('roles.listele') }}">Rol Listele</a></li>
                                     @endcan
-                                    @can('roles-ekle')
-                                        <li><a class="dropdown-item" href=" {{ route('roles.ekle') }}">Rol Ekle</a></li>
-                                    @endcan
                                 </ul>
                             </li>
                         @endcan

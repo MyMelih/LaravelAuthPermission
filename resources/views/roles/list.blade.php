@@ -4,8 +4,11 @@
 
 @can('roles-listele')
     <div class="container mt-5">
-        <div>
-            <h3 style="display: flex; justify-content: center">Kayıt Listele</h3>
+        <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center">
+            <h3>Rol Listele</h3>
+            @can('roles-ekle')
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="rolesYukle" name="rolesYukle">Rol Ekle</button>
+            @endcan
         </div>
         <table class="table table-striped table-hover table-sm table-dark table-bordered" id="table" style="padding-top: 20px">
             <thead>
@@ -19,10 +22,12 @@
             </tbody>
         </table>
     </div>
+
+
 @endcan
 
 
-{{-- Modal --}}
+{{-- List Modal --}}
 @can('roles-detay')
     <div class="modal fade" id="rolesModal" tabindex="-1" aria-labelledby="rolesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -56,6 +61,33 @@
         </div>
     </div>
 @endcan
+
+{{-- Ekle Modal --}}
+<div class="modal fade" id="rolEkleModal" tabindex="-1" aria-labelledby="rolEkleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rolEkleModalLabel">Role Ekle</h5>
+                    <button type="button" id="exitModal" class="btn-close" data-dismi="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post" class="row" id="role-form">
+                        @csrf
+                        <div class="col">
+                            <label class="form-label">Rol Adı</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Rol Ismi" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeRolesBtn" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    @can('roles-guncelle')
+                        <button type="submit" id="createEkleBtn" class="btn btn-primary">Ekle</button>
+                    @endcan
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @endsection
@@ -145,13 +177,35 @@
         });
     });
 
-
+    // Ekleme Modalı Açma; Ekleme İşlemi
+    $(document).on('click', '#rolesYukle', function(){
+        $('#rolEkleModal').modal('show');
+        $(document).on('click', '#createEkleBtn', function(){
+            $.ajax({
+                type:"POST",
+                url: " {{ route('roles.ekle') }}",
+                data: $('#role-form').serialize(),
+                success: function(response){
+                    alert('Ekleme işlemi başarılı');
+                    $('#role-form').trigger("reset");
+                    $('#rolEkleModal').modal('hide');
+                    $('#table').DataTable().ajax.reload();
+                },
+                error: function(error){
+                    console.log(error);
+                    alert("Ekleme işlemi başarısız");
+                }
+            });
+        });
+    });
 
 
 
     // Modal kapatma tuşları
     $(document).on('click', '#exitModal, #closeRolesBtn', function() {
                 $('#rolesModal').modal('hide');
-            });
+                $('#rolEkleModal').modal('hide');
+    });
+
         </script>
 @endsection
