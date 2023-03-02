@@ -9,7 +9,7 @@
                 <div class="p-5 border-2 border border-secondary rounded">
                     <h2>Kullanıcı Rol Ekleme</h2>
                     <hr>
-                    <form class="row g-3" action="{{ route('roles.ekle') }}" method="post">
+                    <form class="row g-3" action="{{ route('roles.ekle') }}" method="post" id="role-form">
                         @csrf
                         <div class="col">
                             <label for="validationServer01" class="form-label">Rol Adı giriniz</label>
@@ -26,5 +26,30 @@
         </div>
     </div>
 @endcan
+
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function (){
+            $('#role-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('roles.ekle') }}",
+                    data: $('#role-form').serialize(),
+                    success: function (response) {
+                        alert('Rol başarıyla eklendi!');
+                        $('#role-form')[0].reset();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert('Rol eklenirken bir hata oluştu!');
+                    }
+                });
+
+            });
+        });
+    </script>
 
 @endsection

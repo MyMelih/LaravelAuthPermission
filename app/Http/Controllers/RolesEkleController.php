@@ -22,12 +22,11 @@ class RolesEkleController extends Controller
         if (Gate::denies('roles-ekle')) {
             return redirect()->back()->with('error', 'Bu işlem için yetkiniz yok.');
         } else {
-            $data = [
-                'name' => $request->name,
-            ];
+            $role = new Roles();
+            $role->name = $request->input('name');
+            $role->save();
 
-            Roles::create($data);
-            return redirect('/roles/ekle')->with('success', 'Rol başarıyla eklendi.');
+            return view('roles.ekle')->with('success', 'Rol başarıyla eklendi.');
         }
     }
 }

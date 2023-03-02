@@ -22,22 +22,13 @@ class EkleController extends Controller
         if (Gate::denies('firma-ekle')) {
             return redirect()->back()->with('error', 'Bu işlem için yetkiniz yok.');
         } else {
-            $data = [
-                's_no' => $request->s_no,
-                'durum' => $request->durum,
-                'devre_no' => $request->devre_no,
-                'firma' => $request->firma,
-                'lokasyon' => $request->lokasyon,
-                'devre_hizi' => $request->devre_hizi,
-                'koordinat' => $request->koordinat,
-                'bbk' => $request->bbk,
-                'uc_vlan' => $request->uc_vlan,
-                'pop_vlan' => $request->pop_vlan,
-                'turu' => $request->turu,
-            ];
+            $data = $request->only([
+                's_no', 'durum', 'devre_no', 'firma', 'lokasyon', 'devre_hizi', 'koordinat', 'bbk', 'uc_vlan', 'pop_vlan', 'turu'
+            ]);
+            $firma = new Firma($data);
+            $firma->save();
 
-            Firma::create($data);
-            return redirect('/firma/list')->with('success', 'Firma başarıyla eklendi.');
+            return view('ekle')->with('success', 'Firma başarıyla eklendi.');
         }
     }
 }

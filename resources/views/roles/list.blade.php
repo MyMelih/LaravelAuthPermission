@@ -84,28 +84,28 @@
 
     //Silme
     $(document).on('click', '#deleteRolesBtn', function(){
-    var id = $(this).data('id');
-    if(confirm("Silmek istediğinize emin misiniz?")){
-        $.ajax({
-            type: "DELETE",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/roles/sil/" + id, // Değiştirildi
-            success: function(data){
-                setTimeout(function(){
-                    $('#table').DataTable().ajax.reload();
-                    alert('Silme işlemi başarılı');
-                }, 1000);
-            },
-            beforeSend: function(){
-                // Taşındı
-            }
-        });
-    }else{
-        return false;
-    }
-});
+        var id = $(this).data('id');
+        if(confirm("Silmek istediğinize emin misiniz?")){
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "/roles/sil/" + id, // Değiştirildi
+                success: function(data){
+                    setTimeout(function(){
+                        $('#table').DataTable().ajax.reload();
+                        alert('Silme işlemi başarılı');
+                    }, 1000);
+                },
+                beforeSend: function(){
+                    // Taşındı
+                }
+            });
+        }else{
+            return false;
+        }
+    });
 
 
     //Modal Yükleme

@@ -8,7 +8,7 @@
                 <div class="p-5 border-2 border border-secondary rounded">
                     <h2>Manuel Veri Giriş Formu</h2>
                     <hr>
-                    <form class="row g-3 row-cols-4" action="{{ route('firma.ekle') }}" method="post">
+                    <form class="row g-3 row-cols-4" action="{{ route('firma.ekle') }}" method="post" id="firma-form">
                         @csrf
                         <div class="col">
                             <label for="validationServer01" class="form-label">S.No</label>
@@ -69,6 +69,30 @@
         </div>
     </div>
     @endcan
+    @endsection
+
+    @section('js')
+        <script>
+            $(document).ready(function(){
+                $('#firma-form').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('firma.ekle') }}",
+                        data: $('#firma-form').serialize(),
+                        success: function(data){
+                            alert('Kayıt Başarılı!');
+                            $('#firma-form')[0].reset();
+                        },
+                        error: function(error){
+                            console.log(error)
+                            alert('Kayıt Başarısız!');
+                        }
+                    });
+                })
+            })
+        </script>
+
     @endsection
 </body>
 
