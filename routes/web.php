@@ -5,7 +5,6 @@ use App\Http\Controllers\Firma\FirmaController;
 use App\Http\Controllers\Firma\ListController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\RolesEkleController;
 use App\Http\Controllers\RolesListController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -85,10 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/user/sil/{id}', [UserController::class, 'userSil'])
         ->middleware('can:user-sil');
 
-    Route::get('/roles/ekle', [RolesEkleController::class, 'index'])
-        ->middleware('can:roles-ekle');
-
-    Route::post('/roles/ekle', [RolesEkleController::class, 'ekle'])
+    Route::post('/roles/ekle', [RolesListController::class, 'ekle'])
         ->name('roles.ekle')
         ->middleware('can:roles-ekle');
 

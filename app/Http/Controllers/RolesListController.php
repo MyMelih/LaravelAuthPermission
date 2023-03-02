@@ -19,6 +19,20 @@ class RolesListController extends Controller
         return view('roles.list');
     }
 
+    public function ekle(Request $request)
+    {
+        if (Gate::denies('roles-ekle')) {
+            return redirect()->back()->with('error', 'Bu işlem için yetkiniz yok.');
+        } else {
+            $role = new Roles();
+            $role->name = $request->input('name');
+            $role->save();
+
+            return view('roles.list')->with('success', 'Rol başarıyla eklendi.');
+        }
+    }
+
+
     public function rolesListele(Request $request)
     {
         if (Gate::denies('roles-listele')) {

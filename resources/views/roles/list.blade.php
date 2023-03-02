@@ -125,10 +125,7 @@
                 },
                 url: "/roles/sil/" + id, // Değiştirildi
                 success: function(data){
-                    setTimeout(function(){
-                        $('#table').DataTable().ajax.reload();
-                        alert('Silme işlemi başarılı');
-                    }, 1000);
+                    $('#table').DataTable().ajax.reload();
                 },
                 beforeSend: function(){
                     // Taşındı
